@@ -5,17 +5,27 @@ import com.dstorage.common.ServerInfo;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Transport implements Runnable{
 
     private final ArrayList<Connection> room = new ArrayList<>();
     private final Thread acceptTask = Thread.currentThread();
     private ServerSocket server;
+    private Integer listenAddress;
+
+    private List<Integer> bootstrapNodes;
+
+    public Transport(Integer listenAddress,List<Integer> bootstrapNodes) {
+        this.listenAddress = listenAddress;
+        this.bootstrapNodes = bootstrapNodes;
+    }
 
     @Override
     public void run() {
-        try(ServerSocket serverRessource = new ServerSocket(ServerInfo.port)) {
-            System.out.println("Server is starting on port "+ServerInfo.port);
+        ServerInfo serverInfo = new ServerInfo(this.listenAddress, "localhost");
+        try(ServerSocket serverRessource = new ServerSocket(serverInfo.port)) {
+            System.out.println("Server is starting on port "+serverInfo.port);
             server = serverRessource;
             while(true) {
                 waitNewClient();

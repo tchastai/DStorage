@@ -1,10 +1,15 @@
 package com.dstorage.common;
 
 public class ServerInfo {
-    public static final int port = 3000;
-    public static final String ip = "localhost";
+    public int port;
+    public String ip;
 
-    public static String info() {
-        return ip + ":" + port;
+    public ServerInfo(int port, String ip) {
+        this.port = port;
+        this.ip = ip;
+    }
+
+    public String info() {
+        return this.ip + ":" + this.port;
     }
 }
